@@ -19,9 +19,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MenuAppBar({handleClick, loginHandler}) {
-  const classes = useStyles();
-  
+export default function MenuAppBar({handleClick, loginHandler, logoutHandler, loggedIn}) {
+  const classes = useStyles();  
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -32,7 +32,12 @@ export default function MenuAppBar({handleClick, loginHandler}) {
           <Typography variant="h6" className={classes.title}>
             The Library
           </Typography>
-          <Button color="inherit" onClick={loginHandler}>Login</Button>
+          {
+            loggedIn ?
+              <Button color="inherit" onClick={logoutHandler}>Logout</Button>
+              :
+              <Button color="inherit" onClick={loginHandler}>Login</Button>
+            }
         </Toolbar>
       </AppBar>
     </div>

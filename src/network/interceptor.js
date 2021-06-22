@@ -1,9 +1,7 @@
 import axios from "axios";
-import { createBrowserHistory } from 'history';
 
-export default function networkInterceptor() {
-    const history = createBrowserHistory();
-
+export default function networkInterceptor(history) {
+    axios.defaults.baseURL = "http://localhost:8000/";
     axios.interceptors.request.use(
         function (req) {
             let email = localStorage.getItem("email");
@@ -15,10 +13,7 @@ export default function networkInterceptor() {
                 history.replace("/signin");
                 
             } else {
-                req.body = {
-                    email: email,
-                    token: access_token
-                };
+                req.headers["authorization"] = "Bearer " + access_token;
             }
             return req;
         },
@@ -40,6 +35,7 @@ export default function networkInterceptor() {
             console.log("interceptor response", error)
 
             let {status} = error.response;
+            console.log(status, "status insode interceptor")
             if(status === 403 && localStorage.getItem('access_token') && !originalRequest._retry) {
                 originalRequest._retry = true;
                 await getAndSaveNewToken();
@@ -55,9 +51,11 @@ export default function networkInterceptor() {
 
 
 async function getAndSaveNewToken() {
+    console.log("getAmdSaveTOkenc called")
     try {
         let result = await axios.post("/auth/token", {
-            "refresh_token": localStorage.getItem("refresh_token")
+            "refresh_token": localStorage.getItem("refresh_token"),
+            "email": localStorage.getItem("email")
         });
         localStorage.setItem("access_token", result.data.access_token);
     }catch(err) {

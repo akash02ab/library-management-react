@@ -22,9 +22,15 @@ function App(props) {
         }
     }
 
+    const logoutHandler = () => {
+        setLoggedIn(false);
+        history.replace("/signin");
+    }
+
+
     return (
         <div>
-            <MenuAppBar handleClick={toggleDrawer} loginHandler={loginHandler} />
+            <MenuAppBar handleClick={toggleDrawer} loginHandler={loginHandler} logoutHandler={logoutHandler} loggedIn={loggedIn} />
             <SwipeableTemporaryDrawer
                 handleClose={toggleDrawer}
                 isOpen={drawerOpen}

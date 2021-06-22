@@ -8,9 +8,11 @@ import Issues from "./Issues";
 import SignUp from "./SignUp";
 import SignIn from "./SingIn";
 import networkInterceptor from "../network/interceptor";
+import { createBrowserHistory } from 'history';
 
 function Wrapper() {
-    networkInterceptor();
+    const history = createBrowserHistory();
+    networkInterceptor(history);
     return (
         <Router>
             <App>

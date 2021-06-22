@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useHistory } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -51,6 +52,7 @@ export default function SignUp() {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
+  const history = useHistory();
 
   const submitForm = async (e) => {
       setLoading(true);
@@ -74,6 +76,7 @@ export default function SignUp() {
       let result = await response.json();
       console.log(result);
       setLoading(false);
+      history.push("/signin");
   }
 
   return (
